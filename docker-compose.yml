@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+    auth:
+        image: alexander/auth:1.0
+        container_name: auth
+        env_file:
+            - .env
+        ports:
+            - '4000:4000'
+        restart: always
+        networks:
+            - awsp_network
+
+networks:
+    awsp_network:
+        external: true
