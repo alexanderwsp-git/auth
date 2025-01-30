@@ -1,30 +1,36 @@
-import { Router } from 'express';
-import { registerUser, authenticateUser } from '../auth/cognito';
+import { Router, Request, Response } from 'express';
+import { registerUser, authenticateUser, logoutUser } from '../auth/cognito';
 
 const router = Router();
 
-router.post('/register', async (req, res) => {
+router.post('/register', async (req: Request, res: Response): Promise<any> => {
     try {
         const { username, password, email } = req.body;
         const response = await registerUser(username, password, email);
-        res.json(response);
+        return res.json(response);
     } catch (error) {
-        res.status(400).json({ error: error });
+        return res.status(400).json({ error: (error as Error).message });
     }
 });
 
-router.post('/login', async (req, res) => {
+router.post('/login', async (req: Request, res: Response): Promise<any> => {
     try {
         const { username, password } = req.body;
-        const token = await authenticateUser(username, password);
-        res.json({ token });
+        const authResult = await authenticateUser(username, password);
+        return res.json(authResult); // ✅ Returns access & refresh tokens
     } catch (error) {
-        res.status(401).json({ error: 'Invalid credentials' });
+        return res.status(401).json({ error: (error as Error).message });
     }
 });
 
-router.get('/hola', async (req, res) => {
-    res.json({ token: 'hola' });
+router.post('/logout', async (req: Request, res: Response): Promise<any> => {
+    try {
+        const { accessToken } = req.body;
+        const response = await logoutUser(accessToken);
+        return res.json(response);
+    } catch (error) {
+        return res.status(400).json({ error: (error as Error).message });
+    }
 });
 
 export default router;

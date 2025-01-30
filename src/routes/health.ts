@@ -8,11 +8,6 @@ const router = Router();
  * @access Public
  */
 router.get('/', (req: Request, res: Response) => {
-    const date = new Date();
-    console.log(date.toString());
-    process.env.TZ = 'America/Guayaquil';
-    console.log(date.toString());
-
     res.status(200).json({
         success: true,
         status: 'OK',

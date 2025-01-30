@@ -2,12 +2,21 @@ version: '3.8'
 
 services:
     auth:
-        image: alexander/auth:1.0
+        build:
+            context: .
+            dockerfile: Dockerfile
+            target: ${BUILD_TARGET:-runner}
+        image: alexander/auth:latest
         container_name: auth
         env_file:
             - .env
+        environment:
+            DATABASE_URL: postgres://admin:adm1n*@awsp_postgres:5432/webapp?schema=sheep
         ports:
-            - '4000:4000'
+            - '1080:1080'
+        volumes:
+            - .:/app
+            - /app/node_modules
         restart: always
         networks:
             - awsp_network

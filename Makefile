@@ -2,6 +2,14 @@
 SHELL := /bin/bash
 
 # Run the development server
+start-dev:
+	BUILD_TARGET=dev docker-compose up --build -d
+
+restart-dev:
+	docker-compose down && BUILD_TARGET=dev docker-compose up --build -d
+logs:
+	docker logs -f auth
+
 watch:
 	npm run dev
 
