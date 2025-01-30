@@ -7,11 +7,15 @@ start-dev:
 
 restart-dev:
 	docker-compose down && BUILD_TARGET=dev docker-compose up --build -d
-logs:
-	docker logs -f auth
+
+logx:
+	docker-compose logs -f
 
 watch:
-	npm run dev
+	docker-compose up -d
+
+down:
+	docker-compose down
 
 mg:
 	@if [ -z "$(name)" ]; then \

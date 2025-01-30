@@ -4,12 +4,16 @@ import express from 'express';
 import dotenv from 'dotenv';
 
 import routes from './routes/index';
+import { requestLogger } from './middleware/logger';
 
 dotenv.config();
 
 const PORT = process.env.PORT || 4000;
 
 const app = express();
+
+app.use(requestLogger);
+
 app.use(express.json());
 
 app.use('/api', routes);

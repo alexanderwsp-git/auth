@@ -4,6 +4,7 @@ import {
     AdminInitiateAuthCommand,
     GlobalSignOutCommand,
 } from '@aws-sdk/client-cognito-identity-provider';
+import { logger } from '../middleware/logger';
 
 const cognitoClient = new CognitoIdentityProviderClient({
     region: process.env.AWS_REGION,
@@ -25,7 +26,7 @@ export const registerUser = async (
         await cognitoClient.send(command);
         return { message: 'User registered successfully!' };
     } catch (error) {
-        console.log(error);
+        logger.error('Cognito registration failed', error);
         throw new Error('Cognito registration failed');
     }
 };
@@ -45,7 +46,7 @@ export const authenticateUser = async (username: string, password: string) => {
         const response = await cognitoClient.send(command);
         return response.AuthenticationResult;
     } catch (error) {
-        console.log(error);
+        logger.error('Authentication failed', error);
         throw new Error('Authentication failed');
     }
 };
@@ -59,7 +60,7 @@ export const logoutUser = async (accessToken: string) => {
         await cognitoClient.send(command);
         return { message: 'User logged out successfully' };
     } catch (error) {
-        console.log(error);
+        logger.error('Logout failed', error);
         throw new Error('Logout failed');
     }
 };
