@@ -24,20 +24,24 @@ app.use(limiter);
 app.use('/api', routes);
 app.use(errorHandler);
 
-const startServer = async () => {
-    try {
-        await AppDataSource.initialize();
-        console.log('✅ Database connected!');
+export { app };
 
-        app.listen(PORT, () => {
-            console.log(
-                `🚀 Server is running on port ${PORT}, TZ: ${process.env.TZ}`
-            );
-        });
-    } catch (error) {
-        console.error('❌ Database connection failed:', error);
-        process.exit(1);
-    }
-};
+if (process.env.NODE_ENV !== 'test') {
+    const startServer = async () => {
+        try {
+            await AppDataSource.initialize();
+            console.log('✅ Database connected!');
 
-startServer();
+            app.listen(PORT, () => {
+                console.log(
+                    `🚀 Server is running on port ${PORT}, TZ: ${process.env.TZ}`
+                );
+            });
+        } catch (error) {
+            console.error('❌ Database connection failed:', error);
+            process.exit(1);
+        }
+    };
+
+    startServer();
+}

@@ -32,7 +32,7 @@ router.post(
 router.get(
     '/',
     asyncHandler(async (req: Request, res: Response): Promise<any> => {
-        const { page = 1, limit = 10, name, type, status } = req.query;
+        const { page, limit, name, type, status } = req.query;
 
         const settings =
             page && limit
