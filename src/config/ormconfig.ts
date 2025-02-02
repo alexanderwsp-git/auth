@@ -14,4 +14,8 @@ export const AppDataSource = new DataSource({
     schema: schema,
     entities: [`${__dirname}/../entities/**/*.ts`],
     migrations: [`${__dirname}/../migrations/**/*.ts`],
+    extra: {
+        max: 10, // ✅ Limit max connections (tune as needed)
+        idleTimeoutMillis: 30000, // ✅ Close idle connections after 30s
+    },
 });

@@ -4,7 +4,7 @@ import {
     AdminInitiateAuthCommand,
     GlobalSignOutCommand,
 } from '@aws-sdk/client-cognito-identity-provider';
-import { logger } from '../middleware/logger';
+import { logger } from '../middlewares/logger';
 
 const cognitoClient = new CognitoIdentityProviderClient({
     region: process.env.AWS_REGION,

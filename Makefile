@@ -47,3 +47,14 @@ destroy:
 	docker-compose down
 	@echo "removiendo volumen db..."
 	docker volume rm auth_node_modules
+
+
+dvp:
+	@echo "🔎 Finding unused Docker volumes..."
+	@docker volume ls -q | while read volume; do \
+		if ! docker ps -a --filter volume=$$volume --format '{{.Names}}' | grep -q .; then \
+			echo "🗑 Removing unused volume: $$volume"; \
+			docker volume rm $$volume; \
+		fi; \
+	done
+	@echo "✅ All truly unused volumes removed."

@@ -4,6 +4,7 @@ import {
     PrimaryGeneratedColumn,
     CreateDateColumn,
     UpdateDateColumn,
+    Index,
 } from 'typeorm';
 
 @Entity({ schema: process.env.DATABASE_SCHEMA || 'public' })
@@ -11,6 +12,7 @@ export class Setting {
     @PrimaryGeneratedColumn('uuid')
     id!: string;
 
+    @Index()
     @Column({ unique: true, nullable: false })
     name?: string;
 

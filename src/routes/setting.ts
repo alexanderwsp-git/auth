@@ -1,48 +1,74 @@
 import { Router, Request, Response } from 'express';
 import { SettingService } from '../services/settingService';
+import {
+    IdSchema,
+    SettingPartialSchema,
+    SettingSchema,
+} from '../validation/settingSchema';
+import { validateSchema } from '../middlewares/validate';
+import {
+    created,
+    deleted,
+    failed,
+    found,
+    serverError,
+    updated,
+} from '../utils/responseHandler';
+import { asyncHandler } from '../middlewares/asyncHandler';
+import { validateParams } from '../middlewares/validateParams';
 
 const router = Router();
 const settingService = new SettingService();
 
-router.post('/', async (req: Request, res: Response): Promise<any> => {
-    try {
+router.post(
+    '/',
+    validateSchema(SettingSchema),
+    asyncHandler(async (req: Request, res: Response) => {
         const setting = await settingService.createSetting(req.body);
-        return res.status(201).json(setting);
-    } catch (error) {
-        return res.status(400).json({ error: (error as Error).message });
-    }
-});
+        created(res, setting);
+    })
+);
 
-router.get('/', async (req: Request, res: Response): Promise<any> => {
-    const settings = await settingService.getAllSettings();
-    return res.json({ settings });
-});
+router.get(
+    '/',
+    asyncHandler(async (req: Request, res: Response): Promise<any> => {
+        const settings = await settingService.getAllSettings();
+        found(res, settings);
+    })
+);
 
-router.get('/:id', async (req: Request, res: Response): Promise<any> => {
-    const setting = await settingService.getSettingById(req.params.id);
-    return res.status(200).json({
-        success: true,
-        data: setting,
-    });
-});
+router.get(
+    '/:id',
+    validateParams(IdSchema),
+    asyncHandler(async (req: Request, res: Response) => {
+        const setting = await settingService.getSettingById(req.params.id);
+        if (!setting) return failed(res, 'Setting not found');
+        found(res, setting);
+    })
+);
 
-router.put('/:id', async (req: Request, res: Response): Promise<any> => {
-    try {
+router.put(
+    '/:id',
+    validateParams(IdSchema),
+    validateSchema(SettingPartialSchema),
+    asyncHandler(async (req: Request, res: Response) => {
         const setting = await settingService.updateSetting(
             req.params.id,
             req.body
         );
-        if (!setting) res.status(404).json({ message: 'Setting not found' });
-        return res.json(setting);
-    } catch (error) {
-        return res.status(400).json({ error: (error as Error).message });
-    }
-});
+        if (!setting) return failed(res, 'Setting not found');
+        updated(res, setting);
+    })
+);
 
-router.delete('/:id', async (req: Request, res: Response): Promise<any> => {
-    const success = await settingService.deleteSetting(req.params.id);
-    if (!success) res.status(404).json({ message: 'Setting not found' });
-    return res.status(204).send();
-});
+router.delete(
+    '/:id',
+    validateParams(IdSchema),
+    asyncHandler(async (req: Request, res: Response) => {
+        const success = await settingService.deleteSetting(req.params.id);
+        if (!success) return failed(res, 'Setting not found');
+        deleted(res);
+    })
+);
 
 export default router;
