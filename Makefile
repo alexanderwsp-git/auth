@@ -40,3 +40,10 @@ setup:
 	npm run migration:generate --name=$(name)
 	npm run migration:run
 	npm run dev
+
+
+destroy:
+	@echo "Deteniendo db..."
+	docker-compose down
+	@echo "removiendo volumen db..."
+	docker volume rm auth_node_modules

@@ -7,17 +7,17 @@ import {
 } from 'typeorm';
 
 @Entity({ schema: process.env.DATABASE_SCHEMA || 'public' })
-export class Param {
+export class Setting {
     @PrimaryGeneratedColumn('uuid')
     id!: string;
 
-    @Column({ unique: true })
+    @Column({ unique: true, nullable: false })
     name?: string;
 
-    @Column({ default: null })
+    @Column({ nullable: false })
     type?: string;
 
-    @Column({ default: null })
+    @Column({ nullable: false })
     config?: string;
 
     @Column({ default: 'Active' })

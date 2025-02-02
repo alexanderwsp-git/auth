@@ -16,10 +16,13 @@ services:
             - '1080:1080'
         volumes:
             - .:/app
-            - /app/node_modules
+            - node_modules:/app/node_modules
         restart: always
         networks:
             - awsp_network
+
+volumes:
+    node_modules:
 
 networks:
     awsp_network:

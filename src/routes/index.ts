@@ -2,12 +2,12 @@ import { Router } from 'express';
 
 import health from './health';
 import auth from './auth';
-import param from './param';
+import setting from './setting';
 
 const router = Router();
 
 router.use('/health', health);
 router.use('/auth', auth);
-router.use('/param', param);
+router.use('/setting', setting);
 
 export default router;
