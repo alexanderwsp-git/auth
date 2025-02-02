@@ -32,7 +32,17 @@ router.post(
 router.get(
     '/',
     asyncHandler(async (req: Request, res: Response): Promise<any> => {
-        const settings = await settingService.getAllSettings();
+        const { page = 1, limit = 10, name, type, status } = req.query;
+
+        const settings =
+            page && limit
+                ? await settingService.getPaginatedSettings(
+                      Number(page),
+                      Number(limit),
+                      { name, type, status }
+                  )
+                : await settingService.getAllSettings();
+
         found(res, settings);
     })
 );

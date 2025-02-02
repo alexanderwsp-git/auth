@@ -1,6 +1,6 @@
 import { AppDataSource } from '../config/ormconfig';
 import { Setting } from '../entities/setting';
-import { Repository } from 'typeorm';
+import { ILike, Repository } from 'typeorm';
 
 export class SettingRepository {
     private repository: Repository<Setting>;
@@ -36,5 +36,30 @@ export class SettingRepository {
     async delete(id: string): Promise<boolean> {
         const result = await this.repository.delete(id);
         return result.affected !== 0;
+    }
+
+    async getPaginatedSettings(page: number, limit: number, filters: any) {
+        const where: any = {};
+
+        if (filters.name) where.name = ILike(`%${filters.name}%`);
+        if (filters.type) where.type = filters.type;
+        if (filters.status) where.status = filters.status;
+
+        const [settings, total] = await this.repository.findAndCount({
+            where,
+            take: limit,
+            skip: (page - 1) * limit,
+            order: { createdAt: 'DESC' },
+        });
+
+        return {
+            data: settings,
+            pagination: {
+                total,
+                page,
+                limit,
+                totalPages: Math.ceil(total / limit),
+            },
+        };
     }
 }

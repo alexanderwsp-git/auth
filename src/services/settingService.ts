@@ -26,4 +26,16 @@ export class SettingService {
     async deleteSetting(id: string): Promise<boolean> {
         return this.settingRepository.delete(id);
     }
+
+    async getPaginatedSettings(
+        page: number = 1,
+        limit: number = 10,
+        filters: any
+    ) {
+        return this.settingRepository.getPaginatedSettings(
+            page,
+            limit,
+            filters
+        );
+    }
 }
