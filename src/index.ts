@@ -1,5 +1,6 @@
 import 'reflect-metadata';
 import compression from 'compression';
+import cors from 'cors';
 
 import { AppDataSource } from './config/ormconfig';
 import express from 'express';
@@ -14,7 +15,15 @@ const PORT = process.env.PORT || 4000;
 
 const app = express();
 
+const corsOptions = {
+    origin: process.env.FRONTEND_URL || '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
+};
+
 app.use(compression());
+app.use(cors(corsOptions));
 app.use(requestLogger);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
