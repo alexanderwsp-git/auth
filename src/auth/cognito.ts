@@ -1,13 +1,12 @@
 import {
-    CognitoIdentityProviderClient,
     AdminInitiateAuthCommand,
     GlobalSignOutCommand,
     GetUserCommand,
     ResendConfirmationCodeCommand,
 } from '@aws-sdk/client-cognito-identity-provider';
-import { created, failed, ok } from '../utils/responseHandler';
 import { Response } from 'express';
 import { cognitoClient } from './cognitoHelper';
+import { created, failed, ok } from '@awsp__/utils';
 
 class CognitoService {
     private userPoolId: string;

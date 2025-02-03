@@ -1,11 +1,11 @@
 import { Response } from 'express';
 import {
-    CognitoIdentityProviderClient,
     ForgotPasswordCommand,
     ConfirmForgotPasswordCommand,
 } from '@aws-sdk/client-cognito-identity-provider';
-import { ok } from '../utils/responseHandler';
+
 import { cognitoClient } from './cognitoHelper';
+import { ok } from '@awsp__/utils';
 
 class CognitoPasswordService {
     private clientId = process.env.COGNITO_CLIENT_ID!;

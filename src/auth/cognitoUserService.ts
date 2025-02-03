@@ -1,6 +1,5 @@
 import { Response } from 'express';
 import {
-    CognitoIdentityProviderClient,
     SignUpCommand,
     ConfirmSignUpCommand,
     AdminGetUserCommand,
@@ -8,8 +7,9 @@ import {
     AdminDisableUserCommand,
     ListUsersCommand,
 } from '@aws-sdk/client-cognito-identity-provider';
-import { created, updated, found, failed, ok } from '../utils/responseHandler';
+
 import { cognitoClient } from './cognitoHelper';
+import { created, found, ok, updated } from '@awsp__/utils';
 
 class CognitoUserService {
     private userPoolId = process.env.COGNITO_USER_POOL_ID!;

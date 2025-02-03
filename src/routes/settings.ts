@@ -1,20 +1,19 @@
 import { Router, Request, Response } from 'express';
 import { SettingService } from '../services/settingService';
+
 import {
-    IdSchema,
-    SettingPartialSchema,
-    SettingSchema,
-} from '../validation/settingSchema';
-import { validateSchema } from '../middlewares/validate';
-import {
+    asyncHandler,
     created,
     deleted,
     failed,
     found,
+    IdSchema,
+    SettingPartialSchema,
+    SettingSchema,
     updated,
-} from '../utils/responseHandler';
-import { asyncHandler } from '../middlewares/asyncHandler';
-import { validateParams } from '../middlewares/validateParams';
+    validateParams,
+    validateSchema,
+} from '@awsp__/utils';
 
 const router = Router();
 const settingService = new SettingService();

@@ -1,13 +1,13 @@
 import { Router } from 'express';
-import { validateSchema } from '../middlewares/validate';
-import { asyncHandler } from '../middlewares/asyncHandler';
+import { cognitoUserService } from '../auth/cognitoUserService';
 import {
+    asyncHandler,
     AuthSchema,
     ConfirmUserSchema,
-    UpdateUserSchema,
     DisableUserSchema,
-} from '../validation/authSchema';
-import { cognitoUserService } from '../auth/cognitoUserService';
+    UpdateUserSchema,
+    validateSchema,
+} from '@awsp__/utils';
 
 const router = Router();
 

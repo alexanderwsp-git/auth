@@ -6,9 +6,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 
 import routes from './routes/index';
-import { requestLogger } from './middlewares/logger';
-import { errorHandler } from './middlewares/errorHandler';
-import { limiter } from './middlewares/rateLimiter';
+import { errorHandler, limiter, requestLogger } from '@awsp__/utils';
 
 dotenv.config();
 
