@@ -1,7 +1,6 @@
 import { Router } from 'express';
 import { validateSchema } from '../middlewares/validate';
 import { asyncHandler } from '../middlewares/asyncHandler';
-import { cognitoService } from '../auth/cognito';
 import {
     AccessTokenSchema,
     AuthSchema,
@@ -13,18 +12,13 @@ import {
     ResetPasswordSchema,
     UpdateUserSchema,
 } from '../validation/authSchema';
+import { cognitoService } from '../auth/cognito';
+import { cognitoUserService } from '../auth/cognitoUserService';
+import { cognitoPasswordService } from '../auth/cognitoPasswordService';
 
 const router = Router();
 
-router.post(
-    '/register',
-    validateSchema(AuthSchema),
-    asyncHandler(async (req, res) => {
-        const { username, password, email } = req.body;
-        await cognitoService.registerUser(res, username, password, email);
-    })
-);
-
+// CognitoService
 router.post(
     '/login',
     validateSchema(AuthSchema),
@@ -42,47 +36,12 @@ router.post(
     })
 );
 
-router.get(
-    '/users',
-    asyncHandler(async (req, res) => {
-        await cognitoService.listUsers(res);
-    })
-);
-
-router.get(
-    '/user/:username',
-    asyncHandler(async (req, res) => {
-        await cognitoService.findUserById(res, req.params.username);
-    })
-);
-
 router.post(
     '/refresh',
     validateSchema(RefreshTokenSchema),
     asyncHandler(async (req, res) => {
         const { refreshToken } = req.body;
         await cognitoService.refreshToken(res, refreshToken);
-    })
-);
-
-router.put(
-    '/user/:username',
-    validateSchema(UpdateUserSchema),
-    asyncHandler(async (req, res) => {
-        await cognitoService.updateUserAttributes(
-            res,
-            req.params.username,
-            req.body.attributes
-        );
-    })
-);
-
-router.post(
-    '/confirm',
-    validateSchema(ConfirmUserSchema),
-    asyncHandler(async (req, res) => {
-        const { username, confirmationCode } = req.body;
-        await cognitoService.confirmUser(res, username, confirmationCode);
     })
 );
 
@@ -104,37 +63,81 @@ router.post(
     })
 );
 
+// CognitoUserService
 router.post(
-    '/forgot-password',
-    validateSchema(ForgotPasswordSchema),
+    '/register',
+    validateSchema(AuthSchema),
     asyncHandler(async (req, res) => {
-        const { username } = req.body;
-        await cognitoService.forgotPassword(res, username);
+        const { username, password, email } = req.body;
+        await cognitoUserService.registerUser(res, username, password, email);
     })
 );
 
-// ✅ Reset Password
 router.post(
-    '/reset-password',
-    validateSchema(ResetPasswordSchema),
+    '/confirm',
+    validateSchema(ConfirmUserSchema),
     asyncHandler(async (req, res) => {
-        const { username, confirmationCode, newPassword } = req.body;
-        await cognitoService.resetPassword(
+        const { username, confirmationCode } = req.body;
+        await cognitoUserService.confirmUser(res, username, confirmationCode);
+    })
+);
+
+router.get(
+    '/users',
+    asyncHandler(async (req, res) => {
+        await cognitoUserService.listUsers(res);
+    })
+);
+
+router.get(
+    '/user/:username',
+    asyncHandler(async (req, res) => {
+        await cognitoUserService.findUserById(res, req.params.username);
+    })
+);
+
+router.put(
+    '/user/:username',
+    validateSchema(UpdateUserSchema),
+    asyncHandler(async (req, res) => {
+        await cognitoUserService.updateUserAttributes(
             res,
-            username,
-            confirmationCode,
-            newPassword
+            req.params.username,
+            req.body.attributes
         );
     })
 );
 
-// ✅ Disable User
 router.post(
     '/disable-user',
     validateSchema(DisableUserSchema),
     asyncHandler(async (req, res) => {
         const { username } = req.body;
-        await cognitoService.disableUser(res, username);
+        await cognitoUserService.disableUser(res, username);
+    })
+);
+
+// CognitoPasswordService
+router.post(
+    '/forgot-password',
+    validateSchema(ForgotPasswordSchema),
+    asyncHandler(async (req, res) => {
+        const { username } = req.body;
+        await cognitoPasswordService.forgotPassword(res, username);
+    })
+);
+
+router.post(
+    '/reset-password',
+    validateSchema(ResetPasswordSchema),
+    asyncHandler(async (req, res) => {
+        const { username, confirmationCode, newPassword } = req.body;
+        await cognitoPasswordService.resetPassword(
+            res,
+            username,
+            confirmationCode,
+            newPassword
+        );
     })
 );
 
