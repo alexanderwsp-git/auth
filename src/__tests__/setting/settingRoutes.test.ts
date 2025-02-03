@@ -40,7 +40,7 @@ describe('Setting API Routes', () => {
         mockSettingRepository.create.mockResolvedValue(mockSetting);
 
         const response = await request(app)
-            .post('/api/setting')
+            .post('/api/settings')
             .send(settingData);
 
         expect(response.status).toBe(201);
@@ -56,7 +56,7 @@ describe('Setting API Routes', () => {
         };
 
         const response = await request(app)
-            .post('/api/setting')
+            .post('/api/settings')
             .send(settingData);
 
         expect(response.status).toBe(207);
@@ -76,7 +76,7 @@ describe('Setting API Routes', () => {
 
         mockSettingRepository.findAll.mockResolvedValue(mockSettings);
 
-        const response = await request(app).get('/api/setting');
+        const response = await request(app).get('/api/settings');
 
         expect(response.status).toBe(200);
         expect(response.body.success).toBe(true);
@@ -86,7 +86,7 @@ describe('Setting API Routes', () => {
 
     it('should return 207 with the wrong ID', async () => {
         const response = await request(app).get(
-            '/api/setting/1b9d6bcd-bbfd-4b2d-9b5d-wrong'
+            '/api/settings/1b9d6bcd-bbfd-4b2d-9b5d-wrong'
         );
 
         expect(response.status).toBe(207);
@@ -106,7 +106,7 @@ describe('Setting API Routes', () => {
         mockSettingRepository.findById.mockResolvedValue(mockSetting);
 
         const response = await request(app).get(
-            '/api/setting/1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed'
+            '/api/settings/1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed'
         );
 
         expect(response.status).toBe(200);
@@ -126,7 +126,7 @@ describe('Setting API Routes', () => {
         mockSettingRepository.update.mockResolvedValue(updatedSetting);
 
         const response = await request(app)
-            .put('/api/setting/1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed')
+            .put('/api/settings/1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed')
             .send({
                 name: 'Updated Name',
             });
@@ -146,7 +146,7 @@ describe('Setting API Routes', () => {
         mockSettingRepository.delete.mockResolvedValue(true);
 
         const response = await request(app).delete(
-            '/api/setting/1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed'
+            '/api/settings/1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed'
         );
 
         expect(response.status).toBe(204);

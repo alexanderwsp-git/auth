@@ -7,16 +7,13 @@ import {
 } from '@aws-sdk/client-cognito-identity-provider';
 import { created, failed, ok } from '../utils/responseHandler';
 import { Response } from 'express';
+import { cognitoClient } from './cognitoHelper';
 
 class CognitoService {
-    private cognitoClient: CognitoIdentityProviderClient;
     private userPoolId: string;
     private clientId: string;
 
     constructor() {
-        this.cognitoClient = new CognitoIdentityProviderClient({
-            region: process.env.AWS_REGION,
-        });
         this.userPoolId = process.env.COGNITO_USER_POOL_ID!;
         this.clientId = process.env.COGNITO_CLIENT_ID!;
     }
@@ -32,7 +29,7 @@ class CognitoService {
             },
         });
 
-        const response = await this.cognitoClient.send(command);
+        const response = await cognitoClient.send(command);
         if (!response.AuthenticationResult)
             return failed(res, 'Authentication failed');
 
@@ -42,7 +39,7 @@ class CognitoService {
     async logoutUser(res: Response, accessToken: string) {
         const command = new GlobalSignOutCommand({ AccessToken: accessToken });
 
-        await this.cognitoClient.send(command);
+        await cognitoClient.send(command);
         ok(res, {}, 'User logged out successfully');
     }
 
@@ -54,7 +51,7 @@ class CognitoService {
             AuthParameters: { REFRESH_TOKEN: refreshToken },
         });
 
-        const response = await this.cognitoClient.send(command);
+        const response = await cognitoClient.send(command);
         if (!response.AuthenticationResult)
             return failed(res, 'Invalid refresh token');
 
@@ -64,7 +61,7 @@ class CognitoService {
     async verifyEmail(res: Response, accessToken: string) {
         const command = new GetUserCommand({ AccessToken: accessToken });
 
-        const response = await this.cognitoClient.send(command);
+        const response = await cognitoClient.send(command);
         const emailVerified =
             response.UserAttributes?.find(
                 (attr) => attr.Name === 'email_verified'
@@ -82,7 +79,7 @@ class CognitoService {
             Username: username,
         });
 
-        await this.cognitoClient.send(command);
+        await cognitoClient.send(command);
         ok(res, {}, 'Confirmation code sent successfully!');
     }
 }

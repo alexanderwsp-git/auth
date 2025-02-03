@@ -9,11 +9,9 @@ import {
     ListUsersCommand,
 } from '@aws-sdk/client-cognito-identity-provider';
 import { created, updated, found, failed, ok } from '../utils/responseHandler';
+import { cognitoClient } from './cognitoHelper';
 
 class CognitoUserService {
-    private cognitoClient = new CognitoIdentityProviderClient({
-        region: process.env.AWS_REGION,
-    });
     private userPoolId = process.env.COGNITO_USER_POOL_ID!;
     private clientId = process.env.COGNITO_CLIENT_ID!;
 
@@ -30,7 +28,7 @@ class CognitoUserService {
             UserAttributes: [{ Name: 'email', Value: email }],
         });
 
-        await this.cognitoClient.send(command);
+        await cognitoClient.send(command);
         created(res, { message: 'User registered successfully!' });
     }
 
@@ -40,7 +38,7 @@ class CognitoUserService {
             Limit: limit,
         });
 
-        const response = await this.cognitoClient.send(command);
+        const response = await cognitoClient.send(command);
         found(res, response.Users || []);
     }
 
@@ -50,7 +48,7 @@ class CognitoUserService {
             Username: userId,
         });
 
-        const response = await this.cognitoClient.send(command);
+        const response = await cognitoClient.send(command);
         found(res, response);
     }
 
@@ -65,7 +63,7 @@ class CognitoUserService {
             ConfirmationCode: confirmationCode,
         });
 
-        await this.cognitoClient.send(command);
+        await cognitoClient.send(command);
         ok(res, {}, 'User confirmed successfully!');
     }
 
@@ -80,7 +78,7 @@ class CognitoUserService {
             UserAttributes: attributes,
         });
 
-        await this.cognitoClient.send(command);
+        await cognitoClient.send(command);
         updated(res, { username, attributes });
     }
 
@@ -90,7 +88,7 @@ class CognitoUserService {
             Username: username,
         });
 
-        await this.cognitoClient.send(command);
+        await cognitoClient.send(command);
         ok(res, {}, 'User has been disabled successfully!');
     }
 }

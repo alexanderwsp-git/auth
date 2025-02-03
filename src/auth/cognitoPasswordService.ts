@@ -5,11 +5,9 @@ import {
     ConfirmForgotPasswordCommand,
 } from '@aws-sdk/client-cognito-identity-provider';
 import { ok } from '../utils/responseHandler';
+import { cognitoClient } from './cognitoHelper';
 
 class CognitoPasswordService {
-    private cognitoClient = new CognitoIdentityProviderClient({
-        region: process.env.AWS_REGION,
-    });
     private clientId = process.env.COGNITO_CLIENT_ID!;
 
     async forgotPassword(res: Response, username: string) {
@@ -18,7 +16,7 @@ class CognitoPasswordService {
             Username: username,
         });
 
-        await this.cognitoClient.send(command);
+        await cognitoClient.send(command);
         ok(res, {}, 'Password reset code sent successfully!');
     }
 
@@ -35,7 +33,7 @@ class CognitoPasswordService {
             Password: newPassword,
         });
 
-        await this.cognitoClient.send(command);
+        await cognitoClient.send(command);
         ok(res, {}, 'Password has been reset successfully!');
     }
 }
