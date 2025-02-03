@@ -57,3 +57,6 @@ dvp:
 		fi; \
 	done
 	@echo "✅ All truly unused volumes removed."
+
+zipit:
+	zip -r auth.zip . -x "node_modules/*" "logs/*" "coverage/*" ".git/*"

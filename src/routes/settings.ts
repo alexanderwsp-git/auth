@@ -11,7 +11,6 @@ import {
     deleted,
     failed,
     found,
-    serverError,
     updated,
 } from '../utils/responseHandler';
 import { asyncHandler } from '../middlewares/asyncHandler';

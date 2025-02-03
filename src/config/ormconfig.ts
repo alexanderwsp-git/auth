@@ -10,12 +10,12 @@ export const AppDataSource = new DataSource({
     type: 'postgres',
     url: process.env.DATABASE_URL,
     synchronize: false,
-    logging: true,
+    logging: process.env.NODE_ENV !== 'production' ? true : false,
     schema: schema,
     entities: [`${__dirname}/../entities/**/*.ts`],
     migrations: [`${__dirname}/../migrations/**/*.ts`],
     extra: {
-        max: 10, // ✅ Limit max connections (tune as needed)
-        idleTimeoutMillis: 30000, // ✅ Close idle connections after 30s
+        max: 10,
+        idleTimeoutMillis: 30000,
     },
 });

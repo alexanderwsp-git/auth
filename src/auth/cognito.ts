@@ -5,15 +5,7 @@ import {
     GetUserCommand,
     ResendConfirmationCodeCommand,
 } from '@aws-sdk/client-cognito-identity-provider';
-import { logger } from '../middlewares/logger';
-import {
-    created,
-    failed,
-    found,
-    ok,
-    serverError,
-    updated,
-} from '../utils/responseHandler';
+import { created, failed, ok } from '../utils/responseHandler';
 import { Response } from 'express';
 
 class CognitoService {
