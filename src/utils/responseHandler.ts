@@ -10,6 +10,12 @@ export const sendResponse = <T>(
     res.status(statusCode).json({ error, message, data, success: !error });
 };
 
+export const ok = <T>(
+    res: Response,
+    data: T | null,
+    msn: string = 'Resource created successfully'
+): void => sendResponse(res, 200, msn, data);
+
 export const created = <T>(res: Response, data: T | null): void =>
     sendResponse(res, 201, 'Resource created successfully', data);
 
