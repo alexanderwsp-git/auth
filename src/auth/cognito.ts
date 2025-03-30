@@ -29,8 +29,7 @@ class CognitoService {
         });
 
         const response = await cognitoClient.send(command);
-        if (!response.AuthenticationResult)
-            return failed(res, 'Authentication failed');
+        if (!response.AuthenticationResult) return failed(res, 'Authentication failed');
 
         ok(res, response.AuthenticationResult, 'User Authenticated');
     }
@@ -51,8 +50,7 @@ class CognitoService {
         });
 
         const response = await cognitoClient.send(command);
-        if (!response.AuthenticationResult)
-            return failed(res, 'Invalid refresh token');
+        if (!response.AuthenticationResult) return failed(res, 'Invalid refresh token');
 
         created(res, response.AuthenticationResult);
     }
@@ -62,13 +60,9 @@ class CognitoService {
 
         const response = await cognitoClient.send(command);
         const emailVerified =
-            response.UserAttributes?.find(
-                (attr) => attr.Name === 'email_verified'
-            )?.Value === 'true';
+            response.UserAttributes?.find(attr => attr.Name === 'email_verified')?.Value === 'true';
 
-        const msn = emailVerified
-            ? 'Email is verified'
-            : 'Email is not verified';
+        const msn = emailVerified ? 'Email is verified' : 'Email is not verified';
         ok(res, {}, msn);
     }
 

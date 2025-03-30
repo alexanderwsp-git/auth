@@ -16,9 +16,10 @@ const PORT = process.env.PORT || 4000;
 const app = express();
 
 const corsOptions = {
-    origin: process.env.FRONTEND_URL || '*',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
+    exposedHeaders: ['Authorization'],
     credentials: true,
 };
 
@@ -40,9 +41,7 @@ if (process.env.NODE_ENV !== 'test') {
             console.log('✅ Database connected!');
 
             app.listen(PORT, () => {
-                console.log(
-                    `🚀 Server is running on port ${PORT}, TZ: ${process.env.TZ}`
-                );
+                console.log(`🚀 Server is running on port ${PORT}, TZ: ${process.env.TZ}`);
             });
         } catch (error) {
             console.error('❌ Database connection failed:', error);

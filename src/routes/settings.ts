@@ -34,11 +34,11 @@ router.get(
 
         const settings =
             page && limit
-                ? await settingService.getPaginatedSettings(
-                      Number(page),
-                      Number(limit),
-                      { name, type, status }
-                  )
+                ? await settingService.getPaginatedSettings(Number(page), Number(limit), {
+                      name,
+                      type,
+                      status,
+                  })
                 : await settingService.getAllSettings();
 
         found(res, settings);
@@ -60,10 +60,7 @@ router.put(
     validateParams(IdSchema),
     validateSchema(SettingPartialSchema),
     asyncHandler(async (req: Request, res: Response) => {
-        const setting = await settingService.updateSetting(
-            req.params.id,
-            req.body
-        );
+        const setting = await settingService.updateSetting(req.params.id, req.body);
         if (!setting) return failed(res, 'Setting not found');
         updated(res, setting);
     })

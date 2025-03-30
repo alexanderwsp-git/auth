@@ -22,10 +22,7 @@ export class SettingRepository {
         return this.repository.findOne({ where: { id } });
     }
 
-    async update(
-        id: string,
-        settingData: Partial<Setting>
-    ): Promise<Setting | null> {
+    async update(id: string, settingData: Partial<Setting>): Promise<Setting | null> {
         const setting = await this.findById(id);
         if (!setting) return null;
 

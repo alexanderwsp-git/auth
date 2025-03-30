@@ -7,9 +7,7 @@ jest.mock('../../auth/cognito');
 
 describe('Auth API', () => {
     it('should return 500 if Cognito authentication fails', async () => {
-        mocked(cognitoService.authenticateUser).mockRejectedValue(
-            new Error('Invalid credentials')
-        );
+        mocked(cognitoService.authenticateUser).mockRejectedValue(new Error('Invalid credentials'));
 
         const response = await request(app).post('/api/auth/login').send({
             username: 'wronguser',

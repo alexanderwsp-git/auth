@@ -15,12 +15,7 @@ class CognitoUserService {
     private userPoolId = process.env.COGNITO_USER_POOL_ID!;
     private clientId = process.env.COGNITO_CLIENT_ID!;
 
-    async registerUser(
-        res: Response,
-        username: string,
-        password: string,
-        email: string
-    ) {
+    async registerUser(res: Response, username: string, password: string, email: string) {
         const command = new SignUpCommand({
             ClientId: this.clientId,
             Username: username,
@@ -52,11 +47,7 @@ class CognitoUserService {
         found(res, response);
     }
 
-    async confirmUser(
-        res: Response,
-        username: string,
-        confirmationCode: string
-    ) {
+    async confirmUser(res: Response, username: string, confirmationCode: string) {
         const command = new ConfirmSignUpCommand({
             ClientId: this.clientId,
             Username: username,

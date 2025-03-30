@@ -4,21 +4,15 @@ import { SettingRepository } from '../../repositories/settingRepository';
 import { Setting } from '../../entities/setting';
 import { mockSettingRepository } from '../../__mocks__/settingRepository';
 
-jest.spyOn(SettingRepository.prototype, 'create').mockImplementation(
-    mockSettingRepository.create
-);
+jest.spyOn(SettingRepository.prototype, 'create').mockImplementation(mockSettingRepository.create);
 jest.spyOn(SettingRepository.prototype, 'findAll').mockImplementation(
     mockSettingRepository.findAll
 );
 jest.spyOn(SettingRepository.prototype, 'findById').mockImplementation(
     mockSettingRepository.findById
 );
-jest.spyOn(SettingRepository.prototype, 'update').mockImplementation(
-    mockSettingRepository.update
-);
-jest.spyOn(SettingRepository.prototype, 'delete').mockImplementation(
-    mockSettingRepository.delete
-);
+jest.spyOn(SettingRepository.prototype, 'update').mockImplementation(mockSettingRepository.update);
+jest.spyOn(SettingRepository.prototype, 'delete').mockImplementation(mockSettingRepository.delete);
 
 describe('Setting API Routes', () => {
     beforeEach(() => {
@@ -39,9 +33,7 @@ describe('Setting API Routes', () => {
 
         mockSettingRepository.create.mockResolvedValue(mockSetting);
 
-        const response = await request(app)
-            .post('/api/settings')
-            .send(settingData);
+        const response = await request(app).post('/api/settings').send(settingData);
 
         expect(response.status).toBe(201);
         expect(response.body.success).toBe(true);
@@ -55,9 +47,7 @@ describe('Setting API Routes', () => {
             type: 'boolean',
         };
 
-        const response = await request(app)
-            .post('/api/settings')
-            .send(settingData);
+        const response = await request(app).post('/api/settings').send(settingData);
 
         expect(response.status).toBe(207);
         expect(response.body.success).toBe(false);
@@ -85,9 +75,7 @@ describe('Setting API Routes', () => {
     });
 
     it('should return 207 with the wrong ID', async () => {
-        const response = await request(app).get(
-            '/api/settings/1b9d6bcd-bbfd-4b2d-9b5d-wrong'
-        );
+        const response = await request(app).get('/api/settings/1b9d6bcd-bbfd-4b2d-9b5d-wrong');
 
         expect(response.status).toBe(207);
         expect(response.body.success).toBe(false);

@@ -23,12 +23,7 @@ router.post(
     validateSchema(ResetPasswordSchema),
     asyncHandler(async (req, res) => {
         const { username, confirmationCode, newPassword } = req.body;
-        await cognitoPasswordService.resetPassword(
-            res,
-            username,
-            confirmationCode,
-            newPassword
-        );
+        await cognitoPasswordService.resetPassword(res, username, confirmationCode, newPassword);
     })
 );
 

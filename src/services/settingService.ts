@@ -16,10 +16,7 @@ export class SettingService {
         return this.settingRepository.findById(id);
     }
 
-    async updateSetting(
-        id: string,
-        data: Partial<Setting>
-    ): Promise<Setting | null> {
+    async updateSetting(id: string, data: Partial<Setting>): Promise<Setting | null> {
         return this.settingRepository.update(id, data);
     }
 
@@ -27,15 +24,7 @@ export class SettingService {
         return this.settingRepository.delete(id);
     }
 
-    async getPaginatedSettings(
-        page: number = 1,
-        limit: number = 10,
-        filters: any
-    ) {
-        return this.settingRepository.getPaginatedSettings(
-            page,
-            limit,
-            filters
-        );
+    async getPaginatedSettings(page: number = 1, limit: number = 10, filters: any) {
+        return this.settingRepository.getPaginatedSettings(page, limit, filters);
     }
 }
