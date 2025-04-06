@@ -38,6 +38,7 @@ class CognitoService {
         const command = new GlobalSignOutCommand({ AccessToken: accessToken });
 
         await cognitoClient.send(command);
+
         ok(res, {}, 'User logged out successfully');
     }
 

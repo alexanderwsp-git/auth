@@ -1,14 +1,8 @@
-import {
-    Entity,
-    Column,
-    PrimaryGeneratedColumn,
-    CreateDateColumn,
-    UpdateDateColumn,
-    Index,
-} from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, Index } from 'typeorm';
+import { BaseEntity } from './base.entity';
 
 @Entity({ schema: process.env.DATABASE_SCHEMA || 'public' })
-export class Setting {
+export class Setting extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')
     id!: string;
 
@@ -24,10 +18,4 @@ export class Setting {
 
     @Column({ default: 'Active' })
     status?: string;
-
-    @CreateDateColumn()
-    createdAt!: Date;
-
-    @UpdateDateColumn()
-    updatedAt!: Date;
 }
