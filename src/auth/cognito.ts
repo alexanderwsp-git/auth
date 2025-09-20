@@ -6,7 +6,7 @@ import {
 } from '@aws-sdk/client-cognito-identity-provider';
 import { Response } from 'express';
 import { cognitoClient } from './cognitoHelper';
-import { created, failed, ok } from '@awsp__/utils';
+import { created, failed, ok } from '@alexanderwsp-git/awsp-utils';
 
 class CognitoService {
     private userPoolId: string;

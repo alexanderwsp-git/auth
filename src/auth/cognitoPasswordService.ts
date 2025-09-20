@@ -5,7 +5,7 @@ import {
 } from '@aws-sdk/client-cognito-identity-provider';
 
 import { cognitoClient } from './cognitoHelper';
-import { ok } from '@awsp__/utils';
+import { ok } from '@alexanderwsp-git/awsp-utils';
 
 class CognitoPasswordService {
     private clientId = process.env.COGNITO_CLIENT_ID!;

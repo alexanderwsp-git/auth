@@ -1,6 +1,8 @@
 # Use Bash
 SHELL := /bin/bash
 
+run:
+	npm run dev
 # Run the development server
 start-dev:
 	BUILD_TARGET=dev docker-compose up --build -d

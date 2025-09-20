@@ -9,7 +9,7 @@ import {
 } from '@aws-sdk/client-cognito-identity-provider';
 
 import { cognitoClient } from './cognitoHelper';
-import { created, found, ok, updated } from '@awsp__/utils';
+import { created, found, ok, updated } from '@alexanderwsp-git/awsp-utils';
 
 class CognitoUserService {
     private userPoolId = process.env.COGNITO_USER_POOL_ID!;

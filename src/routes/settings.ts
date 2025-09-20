@@ -13,7 +13,7 @@ import {
     updated,
     validateParams,
     validateSchema,
-} from '@awsp__/utils';
+} from '@alexanderwsp-git/awsp-utils';
 
 const router = Router();
 const settingService = new SettingService();

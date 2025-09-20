@@ -7,7 +7,7 @@ import {
     DisableUserSchema,
     UpdateUserSchema,
     validateSchema,
-} from '@awsp__/utils';
+} from '@alexanderwsp-git/awsp-utils';
 
 const router = Router();
 
