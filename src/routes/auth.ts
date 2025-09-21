@@ -6,6 +6,8 @@ import {
     AuthSchema,
     RefreshTokenSchema,
     ResendConfirmationSchema,
+    RegisterSchema,
+    ConfirmUserSchema,
     validateSchema,
 } from '@alexanderwsp-git/awsp-utils';
 
@@ -52,6 +54,24 @@ router.post(
     asyncHandler(async (req, res) => {
         const { username } = req.body;
         await cognitoService.resendConfirmationCode(res, username);
+    })
+);
+
+router.post(
+    '/register',
+    validateSchema(RegisterSchema),
+    asyncHandler(async (req, res) => {
+        const { username, email, password } = req.body;
+        await cognitoService.registerUser(res, username, email, password);
+    })
+);
+
+router.post(
+    '/confirm-registration',
+    validateSchema(ConfirmUserSchema),
+    asyncHandler(async (req, res) => {
+        const { username, confirmationCode } = req.body;
+        await cognitoService.confirmRegistration(res, username, confirmationCode);
     })
 );
 
