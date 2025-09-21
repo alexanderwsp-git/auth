@@ -37,7 +37,7 @@
         "typescript": "^5.7.3"
     },
     "dependencies": {
-        "@alexanderwsp-git/awsp-utils": "^1.0.0",
+        "@alexanderwsp-git/awsp-utils": "file:../awsp-utils",
         "@aws-sdk/client-cognito-identity-provider": "^3.734.0",
         "@types/express": "^5.0.0",
         "@types/jsonwebtoken": "^9.0.8",
